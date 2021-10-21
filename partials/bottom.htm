@@ -1,0 +1,43 @@
+[viewBag]
+
+[staticMenu]
+code = "navbar"
+==
+<footer class="footer mt-3 pt-3">
+        <div class="row m-0">
+        {% if staticMenu.menuItems %}
+             {% for item in staticMenu.menuItems if not item.viewBag.isHidden %}
+                <div class="col text-center">
+                    <ul class="list-unstyled">
+                        <li role="presentation" class="nav-item {{ item.isActive ? 'active' : '' }} {{ item.isChildActive ? 'child-active' : '' }} {{ item.viewBag.cssClass }}">
+                            {% if item.url %}
+                                <a class="nav-link" href="{{ item.url }}" {{ item.viewBag.isExternal ? 'target="_blank"' }}>
+                                    {{ item.title }}
+                                </a>
+                            {% else %}
+                                <span class="footer" style="text-transform: uppercase;"><b>{{ item.title }}</b></span>
+                            {% endif %}
+                    
+                            {% if item.items %}
+                                <ul class="list-unstyled">
+                                    {% for fitem in item.items %}
+                                        <li class="footer"><a href="{{ fitem.url }}">{{ fitem.title }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+             {% endfor %}
+        {% endif %}
+        </div>
+    </footer>
+    <script type="text/javascript" src="{{ 'assets/js/manifest.js'|theme }}"></script>
+    <script type="text/javascript" src="{{ 'assets/js/vendor.js'|theme }}"></script>
+    <script type="text/javascript" src="{{ 'assets/js/app.js'|theme }}"></script>
+    {% scripts %}
+    {% framework %}
+    {% framework extras %}
+</body>
+
+</html>

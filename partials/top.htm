@@ -1,0 +1,59 @@
+[viewBag]
+
+[staticMenu]
+code = "navbar"
+==
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ this.page.meta_description }}">
+    <meta name="title" content="{{ this.page.meta_title }}">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
+    <link rel="icon" href="{{ 'assets/images/favicon.ico'|theme }}">
+    <link rel="stylesheet" href="{{ 'assets/css/app.css'|theme }}">
+    {% styles %}
+    <link href="{{ ['assets/less/theme.less']|theme }}" rel="stylesheet">
+    {% placeholder head %}
+    <title>{{ this.page.title }} - {{ this.theme.church_name }}</title>
+    <script src="https://kit.fontawesome.com/1d8fad7f77.js" crossorigin="anonymous"></script>
+</head>
+<body class="app layout-{{ this.layout.id }} page-{{ this.page.id }}">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PRSQ3RQ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="/"><b>Church</b>Net</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if staticMenu.menuItems %}
+           <ul class="navbar-nav ml-auto">
+             {% for item in staticMenu.menuItems if not item.viewBag.isHidden %}
+                <li class="nav-item {{ item.items ? 'dropdown' : '' }} {{ item.isActive ? 'active' : '' }} {{ item.isChildActive ? 'child-active' : '' }} {{ item.viewBag.cssClass }}">
+                    {% if item.url %}
+                        <a class="nav-link" href="{{ item.url }}" {{ item.viewBag.isExternal ? 'target="_blank"' }}>
+                            {{ item.title }}
+                        </a>
+                    {% else %}
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                            <b>{{ item.title }}</b>
+                        </a>
+                    {% endif %}
+            
+                    {% if item.items %}
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {% for mitem in item.items %}
+                                <a class="dropdown-item" href="{{ mitem.url }}">{{ mitem.title }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+              {% endfor %}
+           </ul>
+         {% endif %}
+      </div>
+    </nav>

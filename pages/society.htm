@@ -1,0 +1,39 @@
+title = "Society"
+url = "/:district/:circuit/:society"
+layout = "backpage"
+is_hidden = 0
+
+[localmap]
+token = "pk.eyJ1IjoiYmlzaG9wbSIsImEiOiJjanNjenJ3MHMwcWRyM3lsbmdoaDU3ejI5In0.M1x6KVBqYxC2ro36_Ipz_w"
+==
+<?php
+use Illuminate\Support\Facades\DB;
+
+function onStart()
+{
+    
+  $this['record'] = Db::select('select bishopm_churchnet_locals.*,bishopm_churchnet_regionals.regional from bishopm_churchnet_locals,bishopm_churchnet_regionals WHERE bishopm_churchnet_locals.slug = ? AND bishopm_churchnet_regionals.slug = ? AND bishopm_churchnet_locals.regional_id = bishopm_churchnet_regionals.id', [$this->param('society'),$this->param('circuit')])[0];
+}
+?>
+==
+{% if record %}
+    <h3>{{record.local}} <small><a href="{{'societies'|page}}">{{record.regional}} Circuit</a></small></h3>
+    {% if leafletmap.property('icon') %}
+    <div class="py-2">
+        <img src="{{ leafletmap.property('icon')|media}}">
+        <h4>Find us</h4>
+    </div>
+    {% endif %}
+    {% if record.latitude %}
+        {% component 'localmap' latitude=record.latitude longitude=record.longitude %}
+    {% else %}
+        <p>No co-ordinates have been supplied for this society</p>
+    {% endif %}
+    <ul class="list-unstyled">
+        <li><b>Address: </b>{{record.address}}</li>
+        <li><b>Email: </b>{{record.email}}</li>
+        <li><b>Website: </b><a target="_blank" href="{{record.website}}">{{record.website}}</a></li>
+    </ul>
+{% else %}
+    Society not found
+{% endif %}

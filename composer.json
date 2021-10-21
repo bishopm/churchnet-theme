@@ -1,0 +1,14 @@
+{
+    "name": "bishopm/churchnet-theme",
+    "type": "winter-plugin",
+    "description": "ChurchNet theme for Winter CMS",
+    "homepage": "https://github.com/bishopm/churchnet-theme",
+    "keywords": ["churchnet"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Bishop",
+            "email": "admin@church.net.za"
+        }
+    ]
+}

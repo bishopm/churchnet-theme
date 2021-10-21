@@ -1,0 +1,94 @@
+description = "Default layout"
+
+[staticMenu]
+code = "navbar"
+
+[staticPage]
+useContent = 1
+default = 0
+==
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="{{ this.page.meta_description }}">
+    <meta name="title" content="{{ this.page.meta_title }}">
+    <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans:300,400,600,700&amp;lang=en" />
+    <link rel="icon" href="{{ 'assets/images/favicon.ico'|theme }}">
+    <link rel="stylesheet" href="{{ 'assets/css/app.css'|theme }}">
+    {% styles %}
+    <link href="{{ ['assets/less/theme.less']|theme }}" rel="stylesheet">
+    <title>{{ this.page.title }} - {{ this.theme.church_name }}</title>
+</head>
+<body class="app layout-{{ this.layout.id }} page-{{ this.page.id }}">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+      <a class="navbar-brand" href="/"><b>Umhlali</b>Methodist</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        {% if staticMenu.menuItems %}
+           <ul class="navbar-nav ml-auto">
+             {% for item in staticMenu.menuItems if not item.viewBag.isHidden %}
+                <li class="nav-item {{ item.isActive ? 'active' : '' }} {{ item.isChildActive ? 'child-active' : '' }} {{ item.viewBag.cssClass }}">
+                    {% if item.url %}
+                        <a class="nav-link" href="{{ item.url }}" {{ item.viewBag.isExternal ? 'target="_blank"' }}>
+                            {{ item.title }}
+                        </a>
+                    {% else %}
+                        <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown">
+                            {{ item.title }}
+                        </a>
+                    {% endif %}
+            
+                    {% if item.items %}
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {% for mitem in item.items %}
+                                <a class="dropdown-item" href="{{ mitem.url }}">{{ mitem.title }}</a>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </li>
+              {% endfor %}
+           </ul>
+         {% endif %}
+      </div>
+    </nav>
+    {% page %}
+    <footer class="footer mt-3 py-3">
+        <div class="row">
+        {% if staticMenu.menuItems %}
+             {% for item in staticMenu.menuItems if not item.viewBag.isHidden %}
+                <div class="col text-center">
+                    <ul class="list-unstyled">
+                        <li role="presentation" class="nav-item {{ item.isActive ? 'active' : '' }} {{ item.isChildActive ? 'child-active' : '' }} {{ item.viewBag.cssClass }}">
+                            {% if item.url %}
+                                <a class="nav-link" href="{{ item.url }}" {{ item.viewBag.isExternal ? 'target="_blank"' }}>
+                                    {{ item.title }}
+                                </a>
+                            {% else %}
+                                <span style="text-transform: uppercase;"><b>{{ item.title }}</b></span>
+                            {% endif %}
+                    
+                            {% if item.items %}
+                                <ul class="list-unstyled">{% partial __SELF__ ~ "::items" items=item.items %}</ul>
+                            {% endif %}
+                        </li>
+                    </ul>
+                </div>
+             {% endfor %}
+        {% endif %}
+        </div>
+        <div class="container text-center p-5 primary-colour">
+            <a href="mailto:{{ html_email(this.theme.church_email) | raw }}">{{html_email(this.theme.church_email)}}</a> | {{this.theme.church_phone}} | <a href="{{this.theme.church_website}}">{{this.theme.church_website}}</a>
+        </div>
+    </footer>
+    <script type="text/javascript" src="{{ 'assets/js/manifest.js'|theme }}"></script>
+    <script type="text/javascript" src="{{ 'assets/js/vendor.js'|theme }}"></script>
+    <script type="text/javascript" src="{{ 'assets/js/app.js'|theme }}"></script>
+    {% scripts %}
+</body>
+
+</html>

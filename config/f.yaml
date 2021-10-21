@@ -1,0 +1,61 @@
+# Theme customization.
+########################################################################################################################
+
+fields:
+    church_name:
+        label: Church Name
+        type: text
+        span: left
+        default: Church
+    church_website:
+        label: Church website
+        type: text
+        default: "https://www."
+        span: right
+    church_address:
+        label: Church Address
+        type: text
+        span: full
+        default: ""
+    church_email:
+        label: Church Email
+        type: text
+        default: ""
+        span: left
+    church_phone:
+        label: Church Phone
+        type: text
+        default: ""
+        span: right
+    church_youtube:
+        label: Church Youtube channel
+        type: text
+        default: "https://www."
+        span: left
+    church_twitter:
+        label: Church Twitter feed
+        type: text
+        default: "https://www."
+        span: right
+    church_facebook:
+        label: Church Facebook page
+        type: text
+        default: "https://www."
+        span: left
+    church_services:
+        label: Service times
+        type: text
+        default: ""
+        span: right
+    primary_colour:
+        label: Primary colour
+        type: colorpicker
+        assetVar: 'primary-colour'
+    secondary_colour:
+        label: Secondary colour
+        type: colorpicker
+        assetVar: 'secondary-colour'
+    footer_colour:
+        label: Footer colour
+        type: colorpicker
+        assetVar: 'footer-colour'

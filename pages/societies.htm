@@ -1,0 +1,47 @@
+title = "Societies"
+url = "/:district/:circuit"
+layout = "backpage"
+is_hidden = 0
+
+[builderDetails]
+modelClass = "Bishopm\Churchnet\Models\Regional"
+identifierValue = "{{ :circuit }}"
+modelKeyColumn = "slug"
+displayColumn = "regional"
+notFoundMessage = "Record not found"
+
+[regionalmap]
+token = "pk.eyJ1IjoiYmlzaG9wbSIsImEiOiJjanNjenJ3MHMwcWRyM3lsbmdoaDU3ejI5In0.M1x6KVBqYxC2ro36_Ipz_w"
+==
+{% set record = builderDetails.record %}
+{% set displayColumn = builderDetails.displayColumn %}
+{% set notFoundMessage = builderDetails.notFoundMessage %}
+
+{% if record %}
+    <h3>{{ record.regional }} Circuit <small><a href="{{'circuits'|page}}">{{record.provincial.provincial}} District</a></small></h3>
+    {% component 'regionalmap' %}
+    <div class="row">
+        <div class="col-md-6">
+            <ul class="list-unstyled">
+            {% for local in record.locals | sort((a, b) => a.local <=> b.local) %}
+                <li><a href="{{'society'|page({society:local.slug})}}">{{local.local}}</a></li>
+            {% endfor %}
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <h3>Clergy</h3>
+            <ul class="list-unstyled">
+            {% for minister in record.ministers | sort((a, b) => a.surname <=> b.surname) %}
+                {% if minister.active %}
+                    <li>{{minister.surname}}, {{minister.firstname}} ({{minister.status}})</a></li>
+                {% else %}
+                    <li class="text-muted">{{minister.surname}}, {{minister.firstname}} ({{minister.status}})</a></li>
+                {% endif %}
+            {% endfor %}
+            <small class="text-muted">*Retired or inactive clergy are shown in grey text</small>
+            </ul>
+        </div>
+    <div>
+{% else %}
+    {{ notFoundMessage }}
+{% endif %}

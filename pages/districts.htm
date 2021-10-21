@@ -1,0 +1,65 @@
+title = "Districts"
+url = "/"
+layout = "backpage"
+is_hidden = 0
+
+[builderList]
+modelClass = "Bishopm\Churchnet\Models\Provincial"
+scope = "-"
+scopeValue = "{{ :scope }}"
+displayColumn = "provincial"
+noRecordsMessage = "No records found"
+detailsPage = "circuits"
+detailsKeyColumn = "slug"
+detailsUrlParameter = "district"
+pageNumber = "{{ :page }}"
+sortColumn = "provincial"
+sortDirection = "asc"
+
+[denominationmap]
+token = "pk.eyJ1IjoiYmlzaG9wbSIsImEiOiJjanNjenJ3MHMwcWRyM3lsbmdoaDU3ejI5In0.M1x6KVBqYxC2ro36_Ipz_w"
+==
+{% set records = builderList.records %}
+{% set displayColumn = builderList.displayColumn %}
+{% set noRecordsMessage = builderList.noRecordsMessage %}
+{% set detailsPage = builderList.detailsPage %}
+{% set detailsKeyColumn = builderList.detailsKeyColumn %}
+{% set detailsUrlParameter = builderList.detailsUrlParameter %}
+<h3>MCSA Districts</h3>
+{% component 'denominationmap' %}
+<ul class="list-unstyled">
+    {% for record in records %}
+            {# Use spaceless tag to remove spaces inside the A tag. #}
+            {% spaceless %}
+                {% if detailsPage %}
+                    <li><a href="{{ detailsPage|page({ (detailsUrlParameter): attribute(record, detailsKeyColumn) }) }}"></li>
+                {% endif %}
+    
+                {{ attribute(record, displayColumn) }}
+    
+                {% if detailsPage %}
+                    </a>
+                {% endif %}
+            {% endspaceless %}
+    {% else %}
+        <p class="no-data">{{ noRecordsMessage }}</p>
+    {% endfor %}
+</ul>
+
+{% if records.lastPage > 1 %}
+    <ul class="pagination">
+        {% if records.currentPage > 1 %}
+            <li><a href="{{ this.page.baseFileName|page({ (pageParam): (records.currentPage-1) }) }}">&larr; Prev</a></li>
+        {% endif %}
+
+        {% for page in 1..records.lastPage %}
+            <li class="{{ records.currentPage == page ? 'active' : null }}">
+                <a href="{{ this.page.baseFileName|page({ (pageParam): page }) }}">{{ page }}</a>
+            </li>
+        {% endfor %}
+
+        {% if records.lastPage > records.currentPage %}
+            <li><a href="{{ this.page.baseFileName|page({ (pageParam): (records.currentPage+1) }) }}">Next &rarr;</a></li>
+        {% endif %}
+    </ul>
+{% endif %}

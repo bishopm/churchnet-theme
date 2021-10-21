@@ -1,0 +1,11 @@
+description = "All back pages"
+
+[staticMenu]
+code = "navbar"
+==
+{% partial 'top' %}
+<div class="container my-3">
+    <h3><b>{{ this.page.description }}</b></h3>
+    {% page %}
+</div>
+{% partial 'bottom' %}

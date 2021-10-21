@@ -1,0 +1,30 @@
+title = "Circuits"
+url = "/:district"
+layout = "backpage"
+is_hidden = 0
+
+[builderDetails]
+modelClass = "Bishopm\Churchnet\Models\Provincial"
+identifierValue = "{{ :district }}"
+modelKeyColumn = "slug"
+displayColumn = "provincial"
+notFoundMessage = "Record not found"
+
+[provincialmap]
+token = "pk.eyJ1IjoiYmlzaG9wbSIsImEiOiJjanNjenJ3MHMwcWRyM3lsbmdoaDU3ejI5In0.M1x6KVBqYxC2ro36_Ipz_w"
+==
+{% set record = builderDetails.record %}
+{% set displayColumn = builderDetails.displayColumn %}
+{% set notFoundMessage = builderDetails.notFoundMessage %}
+
+{% if record %}
+    <h3>{{ record.provincial }} District <small><a href="/">Back to all districts</a></small></h3>
+    {% component 'provincialmap' %}
+    <ul class="list-unstyled">
+    {% for regional in record.regionals %}
+        <li><a href="{{'societies'|page({circuit:regional.slug})}}">{{regional.reference}} {{regional.regional}}</a></li>
+    {% endfor %}
+    </ul>
+{% else %}
+    {{ notFoundMessage }}
+{% endif %}

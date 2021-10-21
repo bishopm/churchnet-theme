@@ -1,0 +1,46 @@
+a { color: @primary-colour }
+
+a:hover { 
+    color: @secondary-colour;
+    text-decoration: none;
+}
+
+.footer {
+    background-color: @footer-colour;
+    color:white;
+}
+
+.bg-primary,.btn-primary,.badge-primary {
+    background-color: @primary-colour!important;
+}
+
+.btn-primary {
+    background-color: @primary-colour!important;
+    border-color: @secondary-colour!important;
+}
+
+h1,h2,h3,h4,h5,p,body {
+    font-family: 'Open Sans';
+}
+
+li.nav-item > a.togglebutton {
+    background-color: grey;
+    color: white;
+    font-size: 0.9rem;
+    padding: 4px;
+    margin: 2px;
+}
+
+li.nav-item > a.togglebutton.active {
+    background-color: @primary-colour;
+    color: white;
+    font-size: 0.9rem;
+    padding: 4px;
+    margin: 2px;
+}
+
+@media (max-width: 800px) {
+    .footer {
+        font-size: 3vmin;
+    }
+}
